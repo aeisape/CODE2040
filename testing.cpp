@@ -3,7 +3,7 @@
 
 int main(){
 	std::cout<<"this is a test.. github is challenging.."<<std::endl;
-	std::cout<<"This was edited on github!"<<endl;
+	std::cout<<"This was edited on github!"<<std::endl;
 	
 	printf(" _______    \n");
         printf("|#Strut |   \n");
