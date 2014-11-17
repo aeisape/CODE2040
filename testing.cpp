@@ -6,9 +6,9 @@ int main(){
 	std::cout<<"This was edited on github!"<<std::endl;
 	
 	printf(" _______    \n");
-        printf("|#Strut |   \n");
-        printf("| \\('-')|   \n");
-        printf("|  (  (>|   \n");
+        printf("|#Strut |  You need \n");
+        printf("| \\('-')| to put in  \n");
+        printf("|  (  (>|  #werkkk \n");
         printf("|  /   \\|   \n");
         printf("|_______|   \n\n");
 	
