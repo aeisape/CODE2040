@@ -7,7 +7,7 @@ int main(){
 	
 	printf(" _______    \n");
         printf("|#Strut |  You need \n");
-        printf("| \\('-')| to put in  \n");
+        printf("| \\('-')|  to put in  \n");
         printf("|  (  (>|  #werkkk \n");
         printf("|  /   \\|   \n");
         printf("|_______|   \n\n");
