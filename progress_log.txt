@@ -10,4 +10,8 @@ reverse string and needle in a haystack both work..
 still need to figure out json.. only prefixes left. 
 that and getting a date..
 
+					===11/19===
+still trying to figure out json.. have a decent app-
+roach to the prefixes, but could be more efficient
+
 
