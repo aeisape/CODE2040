@@ -25,7 +25,6 @@ string get_jason(string address) {
 get stgring to reverse
 */
 string get_revstr(string jason) {
-
     //convert to string?
     string str;
 
@@ -37,8 +36,6 @@ string get_revstr(string jason) {
 reverse the string
 */
 void reverse_string(string & revstr) {
-
-
     //reverse string
     std::reverse(revstr.begin(), revstr.end());
 
@@ -84,7 +81,7 @@ std::vector<string> get_haystack(string jason) {
 //find needle in haystack
 int find_needle(string needle, std::vector<string> haystack) {
 
-    //sort haystack --(O(NlogN))
+    //sort haystack --(O(NlogN)); array needs to be sorted in order to use find
     std::sort(haystack.begin(), haystack.end(), cmp);
 
     //find returns a reference to the specified value(needle) in the given
@@ -115,6 +112,8 @@ string get_prefix(string jason) {
     return prefix;
 }
 
+
+
 std::vector<string> get_array() {
     std::vector<string> _array;
 
@@ -125,13 +124,39 @@ std::vector<string> get_array() {
 }
 
 //remove words containing the given prefix from the given array, using parallel arrays
-void remove_w_prefixes(string prefix, std::vector<string> _array) {
+void remove_w_prefixes(string prefix, std::vector<string> & _array) {
+    std::sort(_array.begin(), _array.end(), cmp);
 
+    int i = 0;
+    while (_array[i][0] != prefix[0]){
+        i++;
+    }
+
+    bool broke = false;
+    while(_array[i][0] == prefix[0]){
+        for(unsigned int j = 0; j < prefix.length(); j++){
+            if (prefix[j] != _array[i][j]){
+            broke = true;
+            break;
+            }
+        }
+        if(broke == false)
+        //remove ith entry
+            _array.erase(_array.begin()+i);
+        else {
+            i++;
+            broke = false;
+        }
+    }
 }
+
 /**
 test for reverse_string()
 */
 void test_reverse_string() {
+    std::cout<<"====================="<<std::endl;
+    std::cout<<"Testing reverse_string()"<<std::endl;
+
     //momma's name!
     string str = "Bashira Musa";
 
@@ -152,7 +177,7 @@ void test_reverse_string() {
     std::cout<<std::endl;
 
     std::cout<<"once more, with a palendrome"<<std::endl;
-    str = "racecar";
+    str = "Racecar";
     std::cout<<str<<std::endl;
     reverse_string(str);
     std::cout<<str<<std::endl;
@@ -162,6 +187,9 @@ void test_reverse_string() {
 test for find_needle in a haystack()
 */
 void test_find_needle() {
+    std::cout<<"====================="<<std::endl;
+    std::cout<<"Testing find_needle()"<<std::endl;
+
     //create a needle to look for
     string needle = "derp";
 
@@ -185,12 +213,40 @@ void test_find_needle() {
 }
 
 /**
+test for remove_w_prefixes()
+*/
+void test_w_pre() {
+    string prefix = "pre";
+
+    std::vector<string> ra = {"Never", "preconnected",  "to", "API","prebefore", "?", "You" ,"precan", "do", "this" ,"!", "preWe’ll" ,"walk", "preyou", "through", "how", "to", "think", "about", "prethe", "problem", "and", "preprovide","some", "tips","on", "how", "to" ,"find", "advice", "."};
+    unsigned int i;
+    for(i = 0; i<ra.size(); i++){
+        std::cout<<ra[i]<<" ";
+    }
+    std::cout<<std::endl;
+
+    remove_w_prefixes(prefix, ra);
+
+    for(i = 0; i<ra.size(); i++){
+        std::cout<<ra[i]<<" ";
+    }
+
+}
+
+/**
 run all tests
 */
 void full_test_battery() {
+
     test_reverse_string();
     std::cout<<std::endl;
+
     test_find_needle();
+    std::cout<<std::endl;
+
+    test_w_pre();
+    std::cout<<std::endl;
+
     std::cout<<"\n\t\tAll tests passed!"<<std::endl;
     std::cout<<"\t\t'Aal iz well'"<<std::endl;
 }
@@ -198,5 +254,6 @@ void full_test_battery() {
 
 int main() {
     full_test_battery();
+
 }
 
