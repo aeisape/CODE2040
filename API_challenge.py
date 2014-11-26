@@ -66,8 +66,7 @@ def reverse_string():
 	#now we need to send the reversed string back
 	result = {'token':get_token(), 'string':rev_str}
 	data = send_json(send_rev_str_url , result)
-	string = data['result']
-	print string	#print response for self-gratification
+	print data['result']	#print response for self-gratification
 
 def needle_in_haystack():
 	data = get_json(get_haystack_url)
@@ -92,8 +91,7 @@ def needle_in_haystack():
 
 	#send it on its way
 	data = send_json(send_haystack_url, result)
-	success = data['result']
-	print success
+	print data['result']
 
 def rm_prefix():
 	#get some tasty json
@@ -114,6 +112,9 @@ def rm_prefix():
 		j = j+1
 	
 	print array
+        result = {'prefix':prefix, 'array':array}
+        data = send_json(send_prefix_url, result)
+        print = data['result']    #passed!!
 			
 	
 	
@@ -122,7 +123,7 @@ def main():
 	#print "My token is " + get_token()
 	#reverse_string()		#works
 	#needle_in_haystack()	#works
-	rm_prefix()
+	rm_prefix()                      #edited in the car, hopefully works
 
 if __name__ == "__main__":
 	main()
