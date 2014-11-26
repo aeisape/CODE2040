@@ -96,13 +96,32 @@ def needle_in_haystack():
 	print success
 
 def rm_prefix():
-	pass
+	#get some tasty json
+	data = get_json(get_prefix_url)
+	
+	#get prefix and array to search
+	prefix = data['result']['prefix']
+	array = data['result']['array']
+	
+	#print for diagnostic purposes
+	print "Prefix is " + prefix 
+	print array
+	
+	j = 0
+	for i in array:	#increments through values, need numbers
+		if array[j].startswith(prefix):
+			del array[j]
+		j = j+1
+	
+	print array
+			
+	
 	
 	
 def main():
 	#print "My token is " + get_token()
 	#reverse_string()		#works
-	needle_in_haystack()	#works
+	#needle_in_haystack()	#works
 	rm_prefix()
 
 if __name__ == "__main__":
