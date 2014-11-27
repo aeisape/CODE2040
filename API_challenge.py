@@ -5,6 +5,9 @@ import requests
 reg_url = 'http://challenge.code2040.org/api/register'
 get_rev_str_url = 'http://challenge.code2040.org/api/getstring'
 send_rev_str_url = 'http://challenge.code2040.org/api/validatestring'
+get_haystack_url = 'http://challenge.code2040.org/api/haystack'
+send_haystack_url = 'http://challenge.code2040.org/api/validateneedle'
+
 
 def get_token():	#have to register first..
 	#my registration dictionary
@@ -47,18 +50,36 @@ def reverse_string():
 	
 	#now we need to send the reversed string back
 	result = {'token':token, 'string':rev_str}
-	sdat = json.dumps(result)
-	req0 = urllib2.Request(send_rev_str_url, sdat)
-	res0 = urllib2.urlopen(req0)
-	prt0 = res0.read()
-	jsondat = json.loads(prt0)
-	rslt = jsondat['result']
-	print rslt	#print response for self-gratification
+	jdat = json.dumps(result)
+	req = urllib2.Request(send_rev_str_url, jdat)
+	res = urllib2.urlopen(req)
+	prt = res.read()
+	jsondata = json.loads(prt)
+	string = jsondata['result']
+	print string	#print response for self-gratification
 
+def needle_in_haystack():
+	#same as before, should be a function
+	token = get_token()
+	jdict = {"token":token}
+	jdat = json.dumps(jdict)
+	req = urllib2.Request(get_haystack_url, jdat)
+	res = urllib2.urlopen(req)
+	prt = res.read()	
+	jsondata = json.loads(prt)
+	
+	needle = jsondata['result']['needle']
+	haystack = jsondata['result']['haystack']
+	print needle
+	print haystack
+	print "finding needle " + needle + " in given haystack"
+	index = haystack.index(needle)
+	print index
 
 def main():
-	print "My token is " + get_token()
-	reverse_string()	#works
+	#print "My token is " + get_token()
+	#reverse_string()	#works
+	needle_in_haystack()
 
 if __name__ == "__main__":
 	main()
