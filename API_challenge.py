@@ -1,6 +1,8 @@
 import urllib2
 import json
-
+import datetime
+import dateutil
+import dateutil.parser
 #all neccesary urls
 reg_url = 'http://challenge.code2040.org/api/register'
 get_rev_str_url = 'http://challenge.code2040.org/api/getstring'
@@ -33,7 +35,7 @@ def get_token():	#have to register first.., no recursion
 	
 	token = jsondata['result']
 	return token
-	
+
 #condense above into a function
 def get_json(url):
 	token = get_token()				#get my token
@@ -121,18 +123,31 @@ def rm_prefix():
 			
 def dating_game():
 	data = get_json(get_date_url)
-	date = data['result']['datestamp']
+	
+	le_date = data['result']['datestamp']
 	interval = data['result']['interval']
-	print date
+	
+	print 'Given time ' + le_date
+	print 'Given interval (secs) ' + str(interval)
+	
+	le_int = int(interval)
+	curr_date = dateutil.parser.parse(le_date)
+	
+	new_date = curr_date + datetime.timedelta(seconds = le_int)
+	print 'Given interval applied to given time: ' + str(new_date)
+	
+	result = {'token':get_token(), 'datestamp':str(new_date)}
+	data = send_json(send_date_url, result)
+	print data['result']	
 	print '============================================'
 
 	
 	
 def main():
-	print "My token is " + get_token()
-	reverse_string()		#works
-	needle_in_haystack()	#works
-	rm_prefix()             #works
+	#print "My token is " + get_token()
+	#reverse_string()		#works
+	#needle_in_haystack()	#works
+	#rm_prefix()             #works
 	dating_game()
 
 if __name__ == "__main__":
