@@ -171,16 +171,16 @@ def dating_game():
 def main():
 	print "My token is " + get_token(email, github_url)
 	
-	rev = ''
+	rev = ''					#default, for full runthrough
 	rev = reverse_string()		#works
 	
-	hay = ''
+	hay = ''					#default, for full runthrough
 	hay = needle_in_haystack()	#works
 	
-	pre = ''
+	pre = ''					#default, for full runthrough
 	pre = rm_prefix()           #works
 	
-	un_date = ''
+	un_date = ''				#default, for full runthrough
 	un_date = dating_game()		#works
 	
 	#currently passed all tests
