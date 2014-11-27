@@ -3,7 +3,10 @@ import json
 import datetime
 import dateutil
 import dateutil.parser
+
 #all neccesary urls
+email = 'aeisape1@jhu.edu'
+github_url = 'https://github.com/aeisape/CODE2040'
 reg_url = 'http://challenge.code2040.org/api/register'
 get_rev_str_url = 'http://challenge.code2040.org/api/getstring'
 send_rev_str_url = 'http://challenge.code2040.org/api/validatestring'
@@ -14,9 +17,9 @@ send_prefix_url = 'http://challenge.code2040.org/api/validateprefix'
 get_date_url = 'http://challenge.code2040.org/api/time'
 send_date_url = 'http://challenge.code2040.org/api/validatetime'
 	
-def get_token():	#have to register first.., no recursion
-	#my registration dictionary
-	reg_dict = {'email':'aeisape1@jhu.edu','github':'https://github.com/aeisape/CODE2040'}
+def get_token(email, github_url):	#have to register first.., no recursion
+	#my registration dictionary, might as well generalize, because reusable code is amazing
+	reg_dict = {'email':email,'github':github_url}
 
 	#makes it into a json object
 	jdat = json.dumps(reg_dict)
@@ -38,7 +41,7 @@ def get_token():	#have to register first.., no recursion
 
 #condense above into a function
 def get_json(url):
-	token = get_token()				#get my token
+	token = get_token(email, github_url)				#get my token
 	jdict = {"token":token}			#put it in a dictionary
 	jdat = json.dumps(jdict)		#convert to json
 	req = urllib2.Request(url, jdat)#send
@@ -66,19 +69,23 @@ def reverse_string():
 	print rev_str
 	
 	#now we need to send the reversed string back
-	result = {'token':get_token(), 'string':rev_str}
+	result = {'token':get_token(email, github_url), 'string':rev_str}
 	data = send_json(send_rev_str_url , result)
+	
 	print data['result']	#print response for self-gratification
 	print '============================================'
+	
+	#return for full test
+	return data['result'][0:4]
 
 def needle_in_haystack():
-	data = get_json(get_haystack_url)
+	datum = get_json(get_haystack_url)
 	
 	#get the needle
-	needle = data['result']['needle']
+	needle = datum['result']['needle']
 	
 	#get the haystack
-	haystack = data['result']['haystack']
+	haystack = datum['result']['haystack']
 	
 	#print for disgnostic purposes
 	print needle
@@ -90,13 +97,15 @@ def needle_in_haystack():
 	
 	#print for self-gratification
 	print "needle is at index " + str(index)
-	result = {'token':get_token(), 'needle':index}
+	result = {'token':get_token(email, github_url), 'needle':index}
 
 	#send it on its way
 	data = send_json(send_haystack_url, result)
 	print data['result']
 	print '============================================'
-
+		
+	#return for full test
+	return data['result'][0:4]
 
 def rm_prefix():
 	#get some tasty json
@@ -116,39 +125,79 @@ def rm_prefix():
 			del array[j]	#if a word starts with the prefix, delete it
 		j = j+1
 	print array
-	result = {'token':get_token(),'array':array}
+	
+	#package and send
+	result = {'token':get_token(email, github_url), 'array':array}
 	data = send_json(send_prefix_url, result) #send result, get response
+	
 	print data['result']    #passed!!
 	print '============================================'
+		
+	#return for full test
+	return data['result'][0:4]
 			
 def dating_game():
+	
 	data = get_json(get_date_url)
 	
+	#get the date and interval
 	le_date = data['result']['datestamp']
 	interval = data['result']['interval']
 	
+	#print for diagnostic purposes
 	print 'Given time ' + le_date
 	print 'Given interval (secs) ' + str(interval)
 	
+	#convert date so that it can be manipulated
 	le_int = int(interval)
 	curr_date = dateutil.parser.parse(le_date)
 	
+	#increment date by given interval
 	new_date = curr_date + datetime.timedelta(seconds = le_int)
 	print 'Given interval applied to given time: ' + str(new_date)
 	
-	result = {'token':get_token(), 'datestamp':str(new_date)}
+	#tie it all up with a neat little bow
+	result = {'token':get_token(email, github_url), 'datestamp':str(new_date)}
 	data = send_json(send_date_url, result)
-	print data['result']	
+	
+	#print the songs of our glory
+	print data['result']
+		
 	print '============================================'
+		
+	#return for full test
+	return data['result'][0:4]
 
-	
-	
 def main():
-	#print "My token is " + get_token()
-	#reverse_string()		#works
-	#needle_in_haystack()	#works
-	#rm_prefix()             #works
-	dating_game()
+	print "My token is " + get_token(email, github_url)
+	
+	rev = ''
+	rev = reverse_string()		#works
+	
+	hay = ''
+	hay = needle_in_haystack()	#works
+	
+	pre = ''
+	pre = rm_prefix()           #works
+	
+	un_date = ''
+	un_date = dating_game()		#works
+	
+	#currently passed all tests
+	failed = 0
+	
+	#if any test fails, increment 
+	if rev != 'PASS' or hay != 'PASS'  or pre != 'PASS'or un_date != 'PASS':
+		failed = 1
+		
+	#prints an error assuming test simply does not pass or is not run
+	if failed != 0:
+		print '...'
+		print 'Something went wrong, not all stages passed'
+	
+	#print stories of our sccuess
+	else:
+		print 'All stages passed! Great job, man!'
 
 if __name__ == "__main__":
 	main()
