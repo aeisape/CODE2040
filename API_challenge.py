@@ -110,20 +110,19 @@ def rm_prefix():
 		if array[j].startswith(prefix):
 			del array[j]
 		j = j+1
-	
 	print array
-        result = {'prefix':prefix, 'array':array}
-        data = send_json(send_prefix_url, result)
-        print = data['result']    #passed!!
+	result = {'token':get_token(), 'array':array}
+	data = send_json(send_prefix_url, result)
+	print data['result']    #passed!!
 			
 	
 	
 	
 def main():
-	#print "My token is " + get_token()
-	#reverse_string()		#works
-	#needle_in_haystack()	#works
-	rm_prefix()                      #edited in the car, hopefully works
+	print "My token is " + get_token()
+	reverse_string()		#works
+	needle_in_haystack()	#works
+	rm_prefix()             #works
 
 if __name__ == "__main__":
 	main()
