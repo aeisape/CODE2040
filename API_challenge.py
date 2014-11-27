@@ -67,6 +67,7 @@ def reverse_string():
 	result = {'token':get_token(), 'string':rev_str}
 	data = send_json(send_rev_str_url , result)
 	print data['result']	#print response for self-gratification
+	print '============================================'
 
 def needle_in_haystack():
 	data = get_json(get_haystack_url)
@@ -92,6 +93,8 @@ def needle_in_haystack():
 	#send it on its way
 	data = send_json(send_haystack_url, result)
 	print data['result']
+	print '============================================'
+
 
 def rm_prefix():
 	#get some tasty json
@@ -107,15 +110,22 @@ def rm_prefix():
 	
 	j = 0
 	for i in array:	#increments through values, need numbers
-		if array[j].startswith(prefix):
-			del array[j]
+		if array[j].startswith(prefix): 
+			del array[j]	#if a word starts with the prefix, delete it
 		j = j+1
 	print array
-	result = {'token':get_token(), 'array':array}
-	data = send_json(send_prefix_url, result)
+	result = {'token':get_token(),'array':array}
+	data = send_json(send_prefix_url, result) #send result, get response
 	print data['result']    #passed!!
+	print '============================================'
 			
-	
+def dating_game():
+	data = get_json(get_date_url)
+	date = data['result']['datestamp']
+	interval = data['result']['interval']
+	print date
+	print '============================================'
+
 	
 	
 def main():
@@ -123,6 +133,7 @@ def main():
 	reverse_string()		#works
 	needle_in_haystack()	#works
 	rm_prefix()             #works
+	dating_game()
 
 if __name__ == "__main__":
 	main()
