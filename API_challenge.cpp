@@ -125,7 +125,7 @@ std::vector<string> get_array() {
 
 //remove words containing the given prefix from the given array, using parallel arrays
 void remove_w_prefixes(string prefix, std::vector<string> & _array) {
-    std::sort(_array.begin(), _array.end(), cmp);
+    //std::sort(_array.begin(), _array.end(), cmp);
 
     int i = 0;
     while (_array[i][0] != prefix[0]){
@@ -141,7 +141,6 @@ void remove_w_prefixes(string prefix, std::vector<string> & _array) {
             }
         }
         if(broke == false)
-        //remove ith entry
             _array.erase(_array.begin()+i);
         else {
             i++;
